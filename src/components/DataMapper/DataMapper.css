@@ -1,0 +1,17 @@
+.song-list{
+    text-align: center;
+    color: blueviolet;
+    width: 100%;
+    padding-top: 10rem;
+    font-size: 2vw;
+}
+
+.song-table, th, td {
+    text-align: center;
+    width: auto;
+    border: 5px solid black;
+}
+
+th, td {
+    padding: 3px;
+}
