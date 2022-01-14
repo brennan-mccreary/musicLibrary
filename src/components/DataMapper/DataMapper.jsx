@@ -31,7 +31,7 @@ const DataMapper = (props) => {
                 </table>
             </h1>  
         </div>
-    );
+    )
 }
 
 
