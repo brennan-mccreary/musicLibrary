@@ -17,17 +17,26 @@ const DataMapper = (props) => {
                             <th className='table-header'>Released</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        {(props.songs.length > 0) ? <React.Fragment>{props.songs.map((el, i) => 
-                        <tr key={i}>
-                            <td>{el.id}</td>
-                            <td>"{el.title}"</td> 
-                            <td>{el.artist}</td>
-                            <td>{el.album}</td>  
-                            <td>{el.genre}</td>
-                            <td>{el.releaseDate}</td>
-                        </tr>)}</React.Fragment> : null} 
-                    </tbody>
+                    
+                        {(props.songs.length > 0) ? <React.Fragment>{props.songs.filter((el) => 
+                        el.title.includes(props.search) ||
+                        el.artist.includes(props.search) ||
+                        el.genre.includes(props.search) ||
+                        el.album.includes(props.search) ||
+                        el.releaseDate.includes(props.search)
+                        ).map((el, i) => 
+                        <tbody key={i}>
+                            <tr key={i}>
+                                <td>{el.id}</td>
+                                <td>"{el.title}"</td> 
+                                <td>{el.artist}</td>
+                                <td>{el.album}</td>  
+                                <td>{el.genre}</td>
+                                <td>{el.releaseDate}</td>
+                            </tr>
+                        </tbody>
+                        )}</React.Fragment> : null} 
+                    
                 </table>
             </h1>  
         </div>

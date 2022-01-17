@@ -3,14 +3,15 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import DataMapper from './DataMapper/DataMapper';
 import SearchBar from './SearchBar/SearchBar';
-import "./App.css"
+import ResultCounter from './ResultCounter/ResultCounter';
+import "./App.css";
 
 class App extends Component {
     constructor() {
         super();
         this.state = {
             music: [],
-            searchList: []
+            search: ""
         }
     }
 
@@ -18,29 +19,28 @@ class App extends Component {
         this.getAll();        
     }
 
-    // formatData = (data) => {
-    //     data.map((data1) => )
-    // }
-
-    // let data = this.formatData(songs);
-        // console.log(data);
-
-
-    handleSearchCallBack = (search, songs) => {
-        
-        if(search === "") {
-            this.setState({
-                searchList: this.state.music
-            })
-        }
-        else {
-            this.setState({
-                searchList: songs.filter((song) => Object.values(song).includes(search))
-            })
-        }
+    handleChange = (event) => {
+        this.setState({
+            search: event.target.value
+        })
     };
 
-    
+    // handleSearchCallBack = (search, songs) => {
+    //     let newSongs = songs.filter((el) => filterObject(el, search));    
+    //     this.setState({
+    //         searchList: newSongs
+    //     });
+
+    //     function filterObject(el, search) {
+    //         let val = Object.values(el);
+    //         for(let i = 0; i < val.length; i++) {
+    //             if (val[i].toString().toLowerCase().includes(search.toLowerCase(),-1)) {
+    //                 return true;
+    //             }
+    //         }
+    //         return false;
+    //     }
+    // };
 
     getAll = async () => {
         await axios
@@ -48,8 +48,7 @@ class App extends Component {
             .then((res) => {
                 const music = res.data;
                 this.setState({
-                    music: music,
-                    searchList: music
+                    music: music
                 });
             })
     }
@@ -57,8 +56,9 @@ class App extends Component {
     render() {
         return (
             <div className='background'>
-                <SearchBar songs={this.state.music} filterSongs={this.handleSearchCallBack}/>
-                <DataMapper songs={this.state.searchList} />
+                <SearchBar songs={this.state.music} search={this.state.search} handleChange={this.handleChange}/>
+                <ResultCounter songs={this.state.music} search={this.state.search} />
+                <DataMapper songs={this.state.music} search={this.state.search} />
             </div>
         )
     }
