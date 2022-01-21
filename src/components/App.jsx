@@ -5,7 +5,9 @@ import DataMapper from './DataMapper/DataMapper';
 import SearchBar from './SearchBar/SearchBar';
 import ResultCounter from './ResultCounter/ResultCounter';
 import SongEditor from './SongEditor/SongEditor';
+import SongCreator from './SongCreator/SongCreator';
 import "./App.css";
+
 
 class App extends Component {
     constructor() {
@@ -14,7 +16,15 @@ class App extends Component {
             music: [],
             search: "",
             targetItem: "0",
-            target: undefined
+            target: undefined,
+            newSong: {
+                "title": "",
+                "album": "",
+                "artist": "",
+                "genre": "",
+                "releaseDate": ""
+            },
+            createIsClicked: false
         }
     }
 
@@ -35,10 +45,38 @@ class App extends Component {
         })
     };
 
+    handleClickCreateHome = () => {
+        this.setState({
+            createIsClicked: true
+        });
+    }
+
+    handleCreateChange = (event) => {
+        this.setState({
+                newSong: Object.assign(this.state.newSong, {[event.target.name] : event.target.value})
+        });
+        document.getElementById("create-song-form").hidden = false;
+    }
+
+    handleCreateSubmit = (event) => {
+        event.preventDefault();
+        this.postSong(this.state.newSong);
+
+        this.setState({
+            createIsClicked: false
+        });
+        
+        document.getElementById("create-song-home").hidden = false;
+        document.getElementById("song-table").hidden = false;
+        document.getElementById("result-counter").hidden = false;
+        document.getElementById("create-song-form").hidden = true;
+    }
+
     handleSongSubmit = (event) => {
         event.preventDefault();
         this.updateSongByID(this.state.targetItem, this.state.target);
         
+        document.getElementById("create-song-home").hidden = false;
         document.getElementById("song-table").hidden = false;
         document.getElementById("result-counter").hidden = false;
         document.getElementById("song-editor").hidden = true;
@@ -82,6 +120,25 @@ class App extends Component {
             })
     }
 
+    postSong = async (newSong) => {
+        await axios
+        .post(`http://localhost:5000/api/songs`, newSong)
+        .then((res) => {
+            const song = res.data;
+            this.setState({
+                music: song,
+                newSong: {
+                    "title": "",
+                    "album": "",
+                    "artist": "",
+                    "genre": "",
+                    "releaseDate": ""
+                } 
+            });
+            console.log(song);
+        })
+    }
+
     updateSongByID = async (id, target) => {
         await axios
         .put(`http://localhost:5000/api/songs/${id}`, target)
@@ -112,6 +169,7 @@ class App extends Component {
             <div className='background'>
                 <SearchBar songs={this.state.music} search={this.state.search} handleChange={this.handleChange}/>
                 <SongEditor song={this.state.target} songChange={this.handleSongChange} songSubmit={this.handleSongSubmit}/>
+                <SongCreator clicked={this.state.createIsClicked} newSong={this.state.newSong} createSubmit={this.handleCreateSubmit} createChange={this.handleCreateChange} createHome={this.handleClickCreateHome}/>
                 <ResultCounter songs={this.state.music} search={this.state.search} />
                 <DataMapper songs={this.state.music} search={this.state.search} clickEdit={this.handleClickEdit} clickDelete={this.handleClickDelete}/>
             </div>

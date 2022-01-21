@@ -1,11 +1,13 @@
 import React from 'react';
+import './SongEditor.css';
 
 const SongEditor = (props) => {
     return(
         <div id="song-editor">
             {(props.song !== undefined) ? 
             <React.Fragment>
-                {document.getElementById("song-editor").hidden = false,
+                {document.getElementById("create-song-home").hidden = true,
+                document.getElementById("song-editor").hidden = false,
                 document.getElementById("song-table").hidden = true,
                 document.getElementById("result-counter").hidden = true}
                 <div className='container col-lg-4 col-md-6'>

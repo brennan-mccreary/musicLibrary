@@ -1,28 +1,5 @@
-.song-list{
-    text-align: center;
-    color: #1c1f23;
-    width: 100%;
-    padding-top: 2rem;
-    font-size: 2vw;
-    padding-bottom: 10rem;
-}
-
-.song-table, th, td {
-    text-align: center;
-    width: fixed;
-    border: 5px solid #1c1f23;
-    box-shadow: 10px 10px 15px #0f1c29;
-}
-
-th, td {
-    padding: 3px;
-}
 
 .exclude {
     box-shadow: none;
     border: none;
-}
-
-.editor-label {
-    width: auto;
 }
