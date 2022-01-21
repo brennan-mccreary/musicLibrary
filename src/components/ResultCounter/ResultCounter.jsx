@@ -9,7 +9,7 @@ const ResultCounter = (props) => {
         el.album.includes(props.search) ||
         el.releaseDate.includes(props.search)).length
     return(
-        <div className='result-count'>{results} matching results found...</div>
+        <div id="result-counter" className='result-count'>{results} matching results found...</div>
     )
 }
 

@@ -22,3 +22,7 @@ th, td {
     box-shadow: none;
     border: none;
 }
+
+.editor-label {
+    width: auto;
+}
